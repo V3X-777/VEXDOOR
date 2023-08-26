@@ -26,13 +26,38 @@ echo -e "\e[31mThis script is created by V3X to create multi-backdoors on a remo
 echo -e "\e[31mPlease provide the following information:\e[0m"
 
 
-read -p "Enter the machine username: " user
-read -p "Enter the machine IP address: " IP
-read -p "Entre your password: " PASS
-read -p "Entre your username: " USER
-read -p "Entre your ip: " ipuser
-read -p "Entre your port: " port
-read -p "Entre the name of the ssh public key file: " PUBLIC_KEY
+usage() {
+    echo "Usage: $0 -u <machine_username> -p <password> -U <your_username> -i <target_ip> -I <ip_user> -P <port> -k <public_key>"
+    echo "Options:"
+    echo "  -u <target_username>      : Remote machine username"
+    echo "  -P <password>              : Password for remote machine"
+    echo "  -U <your_username>         : Your username"
+    echo "  -I <your_ip>               : Your IP address"
+    echo "  -i <ip_target>               : IP target"
+    echo "  -p <port>                  : Port number"
+    echo "  -k <public_key>            : Path to SSH public key file"
+    exit 1
+}
+
+while getopts ":u:p:U:i:I:P:k:" opt; do
+    case $opt in
+        u) user="$OPTARG";;
+        p) PASS="$OPTARG";;
+        U) USER="$OPTARG";;
+        i) IP="$OPTARG";;
+        I) ipuser="$OPTARG";;
+        P) port="$OPTARG";;
+        k) PUBLIC_KEY="$OPTARG";;
+        \?) echo "Invalid option: -$OPTARG" >&2; usage;;
+        :) echo "Option -$OPTARG requires an argument." >&2; usage;;
+    esac
+done
+
+if [ -z "$user" ] || [ -z "$PASS" ] || [ -z "$USER" ] || [ -z "$IP" ] || [ -z "$ipuser" ] || [ -z "$port" ] || [ -z "$PUBLIC_KEY" ]; then
+    echo "Missing required arguments."
+    usage
+fi
+
 
 export ipuser
 export port
