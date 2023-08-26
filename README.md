@@ -49,7 +49,7 @@ This script is created by V3X to create multi-backdoors on a remote machine.
 Usage: ./try.sh -u <machine_username> -p <password> -U <your_username> -i <target_ip> -I <ip_user> -P <port> -k <public_key>
 Options:
   -u <target_username>      : Remote machine username
-  -P <password>              : Password for remote machine
+  -P <password>              : Password for your user
   -U <your_username>         : Your username
   -I <your_ip>               : Your IP address
   -i <ip_target>               : IP target
